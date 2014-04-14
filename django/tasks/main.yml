@@ -41,6 +41,7 @@
 - name: checkout project
   git: repo={{gitrepo}} dest=/projects/{{project_name}}/src
   sudo_user: "{{project_name}}"
+  when: do_checkout == True
   notify:
     - restart uwsgi
 
