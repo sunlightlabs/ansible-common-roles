@@ -11,6 +11,7 @@
       - build-essential
       - git
       - mercurial
+      - python-pycurl
 - name: install extra packages
   apt: pkg={{item}}
   with_items: extra_packages
