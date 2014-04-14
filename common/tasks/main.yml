@@ -14,3 +14,5 @@
 - name: install extra packages
   apt: pkg={{item}}
   with_items: extra_packages
+- name: sudoers fix
+  template: src=sudoers dest=/etc/sudoers validate='visudo -cf %s'
