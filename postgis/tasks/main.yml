@@ -1,4 +1,6 @@
 ---
+- name: installing pycurl (needed to install a key)
+  apt: pkg=python-pycurl update_cache=yes
 - name: add postgres key
   apt_key: state=present id=ACCC4CF8 url=https://www.postgresql.org/media/keys/ACCC4CF8.asc
 - name: add postgres repository
