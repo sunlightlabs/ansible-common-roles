@@ -1,0 +1,5 @@
+---
+- name: load extensions
+  command: psql {{dbname}} -c "CREATE EXTENSION {{item}}"
+  sudo_user: postgres
+  with_items: extensions

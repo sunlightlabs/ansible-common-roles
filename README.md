@@ -8,10 +8,7 @@ Install common packages and set server's hostname.
 
 Required Variables:
 
-* hostname
-
-Optional Variables:
-
+* hostname (default: "")
 * extra_packages (default: [])
 
 ## django
@@ -38,18 +35,23 @@ Optional Variables:
 
 Create an EBS device
 
-Required Variables:
+Variables:
 
 * device_letter
 * volume_size
 * ebs_size
 
+## mongo
+
+Install MongoDB
+
 ## postgis
 
 Postgres 9.3 w/ PostGIS 2.1
 
-Required Variables:
+Variables:
 
 * dbuser
 * dbpassword
 * dbname
+* extensions (default: [])
