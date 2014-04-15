@@ -1,13 +1,16 @@
 ---
+
+# sets a pypackages fact based on python version
+- name: determine python 2 package list
+  set_fact: pypackages=[python-virtualenv, uwsgi, nginx, python, uwsgi-plugin-python, python-dev]
+  when: python_version == 2
+- name: determine python 3 package list
+  set_fact: pypackages=[python-virtualenv, uwsgi, nginx, python3, uwsgi-plugin-python3, python3-dev]
+  when: python_version == 3
+
 - name: install needed packages
   apt: pkg={{item}} update_cache=yes
-  with_items:
-      - uwsgi
-      - nginx
-      - python3
-      - uwsgi-plugin-python3
-      - python3-dev
-      - python-virtualenv
+  with_items: pypackages
 - name: remove nginx sites-enabled/default
   file: path=/etc/nginx/sites-enabled/default state=absent
 - name: write uwsgi template
