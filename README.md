@@ -21,6 +21,7 @@ Required Variables:
 * gitrepo
 * wsgi_module
 * django_environment
+* python_version (default: 3)
 
 Optional Variables:
 
