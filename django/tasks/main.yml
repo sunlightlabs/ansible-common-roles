@@ -42,7 +42,7 @@
   sudo_user: "{{project_name}}"
 
 - name: create virtualenv
-  command: virtualenv -p python3 /projects/{{project_name}}/virt creates=/projects/{{project_name}}/virt
+  command: virtualenv -p {{python_pkg}} /projects/{{project_name}}/virt creates=/projects/{{project_name}}/virt
   sudo_user: "{{project_name}}"
   notify:
     - restart uwsgi
