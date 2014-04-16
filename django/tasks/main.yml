@@ -14,9 +14,9 @@
     - python-virtualenv
     - uwsgi
     - nginx
-    - {{python_pkg}}
-    - {{python_dev_pkg}}
-    - {{uwsgi_pkg}}
+    - "{{python_pkg}}"
+    - "{{python_dev_pkg}}"
+    - "{{uwsgi_pkg}}"
 - name: remove nginx sites-enabled/default
   file: path=/etc/nginx/sites-enabled/default state=absent
 - name: write uwsgi template
