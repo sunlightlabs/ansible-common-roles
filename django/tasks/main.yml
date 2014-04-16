@@ -55,7 +55,7 @@
     - restart uwsgi
 
 - name: install requirements
-pip: requirements=/projects/{{project_name}}/src/requirements.txt virtualenv=/projects/{{project_name}}/virt/ extra_args=--exists-action ignore
+pip: requirements=/projects/{{project_name}}/src/requirements.txt virtualenv=/projects/{{project_name}}/virt/ extra_args="--exists-action ignore"
   sudo_user: "{{project_name}}"
   notify:
     - restart uwsgi
