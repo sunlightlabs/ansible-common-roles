@@ -1,3 +1,5 @@
 ---
 dependencies:
-  - { role: ebs, ebs_path: /projects/{{project_name}}/ }
+  - role: ebs
+    ebs_path: /projects/{{project_name}}/
+    when: deploy_mode == "ec2"
