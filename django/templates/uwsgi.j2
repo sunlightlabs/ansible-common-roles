@@ -10,7 +10,6 @@ vacuum = true
 chmod-socket = 666
 processes = {{processes | mandatory}}
 module = {{wsgi_module | mandatory}}
-pythonpath = /projects/{{project_name | mandatory}}/src/
 {% for key, val in django_environment.items() %}
 env = {{key}}={{val}}
 {% endfor %}

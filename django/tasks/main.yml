@@ -1,10 +1,10 @@
 ---
 # install python packages (using facts)
-- name: determine python 2 package list
-  set_fact: python_pkg=python python_dev_pkg=python-dev uwsgi_pkg=uwsgi-plugin-python
+- name: setup python2 variables
+  set_fact: python_pkg=python python_dev_pkg=python-dev uwsgi_pkg=uwsgi-plugin-python python_full_version=2.7
   when: python_version == 2
-- name: determine python 3 package list
-  set_fact: python_pkg=python3 python_dev_pkg=python3-dev uwsgi_pkg=uwsgi-plugin-python3
+- name: setup python 3 variables
+  set_fact: python_pkg=python3 python_dev_pkg=python3-dev uwsgi_pkg=uwsgi-plugin-python3 python_full_version=3.3
   when: python_version == 3
 - name: install needed packages
   apt: pkg={{item}} update_cache=yes
@@ -56,10 +56,12 @@
     - restart uwsgi
   when: vagrant != True
 - name: add checkouts to python path
-  lineinfile: dest=/projects/{{project_name}}/virt/lib/{{python_version}}/site-packages/checkouts.pth create=yes state=present line=/projects/{{project_name}}/src/{{item.dir}}
+  lineinfile: dest=/projects/{{project_name}}/virt/lib/python{{python_full_version}}/site-packages/checkouts.pth create=yes state=present line=/projects/{{project_name}}/src/{{item.dir}}
   with_items: git_repositories
-- name: install requirements
-  pip: requirements=/projects/{{project_name}}/src/requirements.txt virtualenv=/projects/{{project_name}}/virt/
   sudo_user: "{{project_name}}"
+- name: install requirements
+  pip: requirements=/projects/{{project_name}}/src/{{item.dir}}/requirements.txt virtualenv=/projects/{{project_name}}/virt/
+  sudo_user: "{{project_name}}"
+  with_items: git_repositories
   notify:
     - restart uwsgi
