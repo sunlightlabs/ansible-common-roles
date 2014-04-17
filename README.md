@@ -2,6 +2,8 @@
 
 Useful (somewhat) general-purpose ansible tasks.
 
+deploy_type should be set to vagrant or ec2
+
 ## common
 
 Install common packages and set server's hostname.
@@ -18,9 +20,9 @@ A Django app running on nginx/uwsgi.
 Required Variables:
 
 * project_name
-* gitrepo
 * wsgi_module
 * django_environment
+* git_repositories - dictionary with keys: dir & repo
 * python_version (default: 3)
 
 Optional Variables:

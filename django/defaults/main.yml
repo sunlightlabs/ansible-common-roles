@@ -1,6 +1,5 @@
 ---
 python_version: 3
-do_checkout: True
 processes: 4
 port: 80
 server_name: 

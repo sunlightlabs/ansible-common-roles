@@ -54,7 +54,7 @@
   with_items: git_repositories
   notify:
     - restart uwsgi
-  when: vagrant != True
+  when: deploy_type == "vagrant"
 - name: add checkouts to python path
   lineinfile: dest=/projects/{{project_name}}/virt/lib/python{{python_full_version}}/site-packages/checkouts.pth create=yes state=present line=/projects/{{project_name}}/src/{{item.dir}}
   with_items: git_repositories
