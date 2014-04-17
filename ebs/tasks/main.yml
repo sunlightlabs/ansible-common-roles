@@ -1,16 +1,16 @@
 ---
 - name: gather EC2 facts
   action: ec2_facts
-  when: deploy_mode == "ec2"
+  when: deploy_type == "ec2"
 - name: install XFS packages
   apt: pkg=xfsprogs update_cache=yes
-  when: deploy_mode == "ec2"
+  when: deploy_type == "ec2"
 - name: create EC2 volume
   ec2_vol: device_name=/dev/sd{{device_letter}} volume_size={{volume_size}} region={{ansible_ec2_placement_region}} zone={{ansible_ec2_placement_availability_zone}} instance={{ansible_ec2_instance_id}} aws_access_key={{aws_key}} aws_secret_key={{aws_secret}}
-  when: deploy_mode == "ec2"
+  when: deploy_type == "ec2"
 - name: format volume
   filesystem: fstype=xfs dev=/dev/xvd{{device_letter}}
-  when: deploy_mode == "ec2"
+  when: deploy_type == "ec2"
 - name: mount volume
   mount: fstype=xfs name={{ebs_path}} src=/dev/xvd{{device_letter}} state=mounted
-  when: deploy_mode == "ec2"
+  when: deploy_type == "ec2"
