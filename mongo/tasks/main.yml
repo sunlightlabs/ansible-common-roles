@@ -5,3 +5,6 @@
 #  apt_repository: state=present update_cache=yes repo="deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen"
 - name: install mongodb
   apt: pkg=mongodb update_cache=yes
+- name: open mongodb port 27017
+  replace: dest=/etc/mongodb.conf regexp="^bind_ip = 127.0.0.1$" replace="bind_ip = 0.0.0.0"
+

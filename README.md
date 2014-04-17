@@ -2,7 +2,9 @@
 
 Useful (somewhat) general-purpose ansible tasks.
 
-deploy_type should be set to vagrant or ec2
+General variables:
+
+* deploy_type (should be set to 'vagrant' or 'ec2')
 
 ## common
 
