@@ -21,3 +21,13 @@
   sudo_user: postgres
   notify:
     - load extensions
+- name: allow password login
+  lineinfile: dest=/etc/postgresql/9.3/main/pg_hba.conf line="host all all 0.0.0.0/0 md5"
+  sudo_user: postgres
+  notify:
+    - restart postgres
+- name: listen on all ports
+  lineinfile: dest=/etc/postgresql/9.3/main/postgresql.conf line="listen_addresses='*'"
+  sudo_user: postgres
+  notify:
+    - restart postgres
