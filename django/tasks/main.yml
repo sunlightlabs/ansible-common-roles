@@ -65,3 +65,4 @@
   with_items: git_repositories
   notify:
     - restart uwsgi
+    - restart nginx
