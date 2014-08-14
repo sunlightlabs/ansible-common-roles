@@ -1,0 +1,7 @@
+---
+- name: make certs directory
+  file: path=/etc/nginx/certs/ state=directory
+- name: copy cert
+  copy: src=certs/{{ssl_cert}} dest=/etc/nginx/certs/{{ssl_cert}} mode=0644
+- name: copy key
+  copy: src=certs/{{ssl_key}} dest=/etc/nginx/certs/{{ssl_key}} mode=0644
