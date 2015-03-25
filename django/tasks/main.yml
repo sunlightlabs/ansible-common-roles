@@ -49,7 +49,7 @@
   notify:
     - restart uwsgi
 - name: checkout project directories
-  git: repo={{item.repo}} dest=/projects/{{project_name}}/src/{{item.dir}}
+  git: repo={{item.repo}} dest=/projects/{{project_name}}/src/{{item.dir}} version={{item.version|default('HEAD')}}
   sudo_user: "{{project_name}}"
   with_items: git_repositories
   notify:
