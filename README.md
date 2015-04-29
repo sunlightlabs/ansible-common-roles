@@ -17,14 +17,14 @@ Required Variables:
 
 ## django
 
-A Django app running on nginx/uwsgi.
+A Django app running on nginx/uwsgi. It is assumed that if your deploy\_type is vagrant, your repo is included as a synced\_folder and does not need to be cloned (the "checkout project directories" task will be skipped).
 
 Required Variables:
 
 * project_name
 * wsgi_module
 * django_environment
-* git_repositories - dictionary with keys: dir & repo
+* git_repositories - dictionary with keys: dir & repo (and optionally version)
 * python_version (default: 3)
 
 Optional Variables:
