@@ -1,0 +1,17 @@
+---
+# Java (a prerequisite for elasticsearch)
+- name: Add Java PPA from webupd8team (elasticsearch requires a version than often newer than default openjre)
+  apt_repository: repo='ppa:webupd8team/java'
+- name: Accept Oracle Java 8 License
+  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+- name: Install Oracle Java 8
+  apt: pkg=oracle-java8-installer update_cache=yes state=present
+# elasticsearch!
+- name: Add elasticsearch APT key
+  apt_key: url=http://packages.elasticsearch.org/GPG-KEY-elasticsearch state=present
+- name: Add elasticsearch repository definition for version {{major_version}}
+  apt_repository: repo='deb http://packages.elasticsearch.org/elasticsearch/{{major_version}}/debian stable main' state=present
+- name: install elasticsearch
+  apt: pkg=elasticsearch update_cache=yes state=present
+- name: Set elasticsearch to start on boot and start right away
+  service: name=elasticsearch state=started enabled=yes
