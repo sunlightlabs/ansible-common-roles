@@ -1,0 +1,53 @@
+---
+# Deploys the confluent package for kafka
+# http://confluent.io/docs/current/installation.html 
+- name: Add confluent apt key
+  apt_key:
+    url: "https://packages.confluent.io/deb/1.0/archive.key"
+    state: present
+ 
+- name: Add confluent repository
+  apt_repository:
+    repo: 'deb [arch=all] http://packages.confluent.io/deb/1.0 stable main'
+    state: present
+ 
+- name: Install list of packages
+  apt: pkg={{item}} state=installed update_cache=yes
+  with_items:
+    - openjdk-7-jre
+    - openjdk-7-jdk
+    - confluent-platform-2.10.4
+    - python-pip
+    - zookeeper
+    - zookeeperd
+    
+- name: Install python-kafka
+  pip: name={{item}}
+  with_items:
+    - kafka-python
+    - flask
+
+- name: Copy over kafka service script
+  copy: src=kafka dest=/etc/init.d/kafka mode=777
+  
+- name: Start zookeeper service
+  service: name=zookeeper state=started
+  
+- name: Start kafka service
+  service: name=kafka state=started 
+
+# Following modified from below:
+#  http://stackoverflow.com/questions/26104274/kafka-in-a-box-unable-to-send-messages-from-host
+- name: uncomment and set advertised.host.name
+  lineinfile: dest=/etc/kafka/server.properties 
+              regexp='^#advertised.host.name=<hostname routable by clients>'
+              insertafter='^#advertised.host.name=<hostname routable by clients>'
+              line='advertised.host.name=10.42.2.106'
+              state=present
+
+- name: uncomment and set advertised.port line
+  lineinfile: dest=/etc/kafka/server.properties 
+              regexp='^#advertised.port=<port accessible by clients>'
+              insertafter='^#advertised.port=<port accessible by clients>'
+              line='advertised.port=9092'
+              state=present

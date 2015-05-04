@@ -1,0 +1,55 @@
+DAEMON_NAME=kafka
+# Check that networking is up.
+#[ ${NETWORKING} = "no" ] && exit 0
+
+# See how we were called.
+case "$1" in
+  start)
+        # Start daemon.
+        echo "Starting $DAEMON_NAME";
+        kafka-server-start -daemon /etc/kafka/server.properties
+        e=$?
+        if [ $e -eq 1 ]; then
+            echo "Kafka already running"
+            return
+        fi
+
+        if [ $e -eq 255 ]; then
+            echo "Kafka couldn't start"
+            exit 1
+        fi
+
+        echo "done"
+        ;;
+  stop)
+        # Stop daemons.
+        echo "Shutting down $DAEMON_NAME";
+        pid=`ps ax | grep -i 'kafka.Kafka' | grep -v grep | awk '{print $1}'`
+        if [ -n "$pid" ]
+          then
+          kafka-server-stop #kill -9 $pid
+        else
+          echo "Kafka was not Running"
+        fi
+        ;;
+  restart)
+        $0 stop
+        sleep 2
+        $0 start
+        ;;
+  status)
+        pid=`ps ax | grep -i 'kafka.Kafka' | grep -v grep | awk '{print $1}'`
+        if [ -n "$pid" ]
+          then
+          echo "Kafka is Running as PID: $pid"
+        else
+          echo "Kafka is not Running"
+          exit 3
+        fi
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+esac
+
+exit 0
