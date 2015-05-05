@@ -3,7 +3,7 @@
 # http://confluent.io/docs/current/installation.html 
 - name: Add confluent apt key
   apt_key:
-    url: "https://packages.confluent.io/deb/1.0/archive.key"
+    url: "http://packages.confluent.io/deb/1.0/archive.key"
     state: present
  
 - name: Add confluent repository
