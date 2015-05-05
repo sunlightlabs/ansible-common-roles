@@ -1,3 +1,4 @@
+#!/bin/sh -
 DAEMON_NAME=kafka
 # Check that networking is up.
 #[ ${NETWORKING} = "no" ] && exit 0
