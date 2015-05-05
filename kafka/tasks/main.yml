@@ -34,7 +34,7 @@
   service: name=zookeeper state=started
   
 - name: Start kafka service
-  service: name=kafka state=started 
+  service: name=kafka state=started enabled=yes
 
 # Following modified from below:
 #  http://stackoverflow.com/questions/26104274/kafka-in-a-box-unable-to-send-messages-from-host
