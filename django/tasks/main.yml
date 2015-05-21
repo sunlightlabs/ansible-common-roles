@@ -16,7 +16,7 @@
 - name: write uwsgi template
   template: src=uwsgi.j2 dest=/etc/uwsgi/apps-enabled/{{project_name}}.ini
   notify:
-    - restart uwsgi
+    - restart django-application
 - name: remove nginx sites-enabled/default
   file: path=/etc/nginx/sites-enabled/default state=absent
 - name: write nginx template
@@ -24,4 +24,7 @@
   notify:
     - restart nginx
 
-# setup code handled by django-base
+#  project setup code is handled by common-roles/django-base
+
+- name: ensure nginx is running and starts on boot
+  service: name=nginx state=restarted enabled=yes

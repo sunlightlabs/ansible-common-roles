@@ -3,8 +3,8 @@
 - name: write celeryd template
   template: src=celeryd.j2 dest=/etc/init.d/celery-{{project_name}} mode=u+rwx
   notify:
-    - restart celery-{{project_name}}
+    - restart django-application
 - name: write celeryd config
   template: src=celeryd.config.j2 dest=/etc/default/celery-{{project_name}}
   notify:
-    - restart celery-{{project_name}}
+    - restart django-application

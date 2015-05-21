@@ -50,4 +50,3 @@
   with_items: git_repositories
   notify:
     - restart django-application
-    - restart nginx
