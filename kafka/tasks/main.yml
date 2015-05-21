@@ -42,7 +42,7 @@
   lineinfile: dest=/etc/kafka/server.properties 
               regexp='^#advertised.host.name=<hostname routable by clients>'
               insertafter='^#advertised.host.name=<hostname routable by clients>'
-              line='advertised.host.name=10.42.2.106'
+              line='advertised.host.name={{ ansible_ssh_host }}'
               state=present
 
 - name: uncomment and set advertised.port line
