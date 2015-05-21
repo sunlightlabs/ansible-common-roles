@@ -11,6 +11,7 @@
   with_items:
     - uwsgi
     - nginx
+    - "{{wsgi_pkg}}"
 
 # uwsgi and nginx
 - name: write uwsgi template
