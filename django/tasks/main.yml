@@ -4,7 +4,7 @@
   set_fact: uwsgi_pkg=uwsgi-plugin-python
   when: python_version == 2
 - name: setup django python 3 variables
-  set_fact:wsgi_pkg=uwsgi-plugin-python3
+  set_fact: wsgi_pkg=uwsgi-plugin-python3
   when: python_version == 3
 - name: install needed packages
   apt: pkg={{item}} update_cache=yes
