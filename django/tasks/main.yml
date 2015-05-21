@@ -1,20 +1,16 @@
 ---
 # install python packages (using facts)
-- name: setup python 2 variables
-  set_fact: python_pkg=python python_dev_pkg=python-dev uwsgi_pkg=uwsgi-plugin-python python_full_version=2.7
+- name: setup django python 2 variables
+  set_fact: uwsgi_pkg=uwsgi-plugin-python
   when: python_version == 2
-- name: setup python 3 variables
-  set_fact: python_pkg=python3 python_dev_pkg=python3-dev uwsgi_pkg=uwsgi-plugin-python3 python_full_version=3.4
+- name: setup django python 3 variables
+  set_fact:wsgi_pkg=uwsgi-plugin-python3
   when: python_version == 3
 - name: install needed packages
   apt: pkg={{item}} update_cache=yes
   with_items:
-    - python-virtualenv
     - uwsgi
     - nginx
-    - "{{python_pkg}}"
-    - "{{python_dev_pkg}}"
-    - "{{uwsgi_pkg}}"
 
 # uwsgi and nginx
 - name: write uwsgi template
@@ -28,41 +24,4 @@
   notify:
     - restart nginx
 
-# create user directory
-- name: make project dir
-  file: path=/projects/{{project_name}} state=directory
-- name: add project user
-  user: name={{project_name}} home=/projects/{{project_name}} shell=/bin/bash state=present
-- name: chown user directory
-  file: path=/projects/{{project_name}} owner={{project_name}}
-- name: add user subdirectories
-  file: path=/projects/{{project_name}}/{{item}} owner={{project_name}} state=directory
-  with_items:
-    - logs
-    - data
-  sudo_user: "{{project_name}}"
-
-# setup code
-- name: create virtualenv
-  command: virtualenv -p {{python_pkg}} /projects/{{project_name}}/virt creates=/projects/{{project_name}}/virt
-  sudo_user: "{{project_name}}"
-  notify:
-    - restart uwsgi
-- name: checkout project directories
-  git: repo={{item.repo}} dest=/projects/{{project_name}}/src/{{item.dir}} version={{item.version|default('HEAD')}}
-  sudo_user: "{{project_name}}"
-  with_items: git_repositories
-  notify:
-    - restart uwsgi
-  when: deploy_type != "vagrant"
-- name: add checkouts to python path
-  lineinfile: dest=/projects/{{project_name}}/virt/lib/python{{python_full_version}}/site-packages/checkouts.pth create=yes state=present line=/projects/{{project_name}}/src/{{item.dir}}
-  with_items: git_repositories
-  sudo_user: "{{project_name}}"
-- name: install requirements
-  pip: requirements=/projects/{{project_name}}/src/{{item.dir}}/requirements.txt virtualenv=/projects/{{project_name}}/virt/
-  sudo_user: "{{project_name}}"
-  with_items: git_repositories
-  notify:
-    - restart uwsgi
-    - restart nginx
+# setup code handled by django-base
