@@ -8,3 +8,6 @@
   template: src=celeryd.config.j2 dest=/etc/default/celery-{{project_name}}
   notify:
     - restart django-application
+- name: Ensure celery-{{project_name}} is running
+  service: name=celery-{{project_name}} state=restarted enabled=yes
+
