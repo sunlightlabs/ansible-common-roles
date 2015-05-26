@@ -15,9 +15,19 @@ Required Variables:
 * hostname (default: "")
 * extra_packages (default: [])
 
+## django-base
+
+Some base setup for django apps that `django` and `django-celery` depend on. Installs python (3 by default), creates project directories, creates the virtualenv, and sets up project code. Emits a `restart django-application` that can be used to restart app daemons such as uwsgi or celeryd.
+
+Required Variables:
+
+* project_name
+* git_repositories - dictionary with keys: dir & repo (and optionally version)
+* python_version (default: 3)
+
 ## django
 
-A Django app running on nginx/uwsgi. It is assumed that if your deploy\_type is vagrant, your repo is included as a synced\_folder and does not need to be cloned (the "checkout project directories" task will be skipped).
+A Django app running on nginx/uwsgi (inherits from django-base). It is assumed that if your deploy\_type is vagrant, your repo is included as a synced\_folder and does not need to be cloned (the "checkout project directories" task will be skipped).
 
 Required Variables:
 
@@ -35,6 +45,22 @@ Optional Variables:
 * ssl_cert (default: "")
 * ssl_key (default: "")
 * nginx_locations (default: {})
+
+## django-celery
+
+Django and celery for distributed task queues (inherits from django-base).
+
+Required Variables:
+
+* project_name
+* git_repositories - dictionary with keys: dir & repo (and optionally version)
+
+Optional Variables:
+
+* python_version (default: 3)
+* concurrency (default 4)
+* worker_nodes (default 3)
+* celeryd\_max\_tasks\_per\_child  (default None)
 
 ## ebs
 
