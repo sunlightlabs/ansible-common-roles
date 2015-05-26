@@ -27,6 +27,20 @@
     - data
   sudo_user: "{{project_name}}"
 
+# Configure project user
+- name: add .profile for project user
+  template: src=profile.j2 dest=/projects/{{project_name}}/.profile mode=644
+  sudo_user: "{{project_name}}"
+  when: configure_user
+- name: add .bashrc for project user
+  template: src=bashrc.j2 dest=/projects/{{project_name}}/.bashrc mode=644
+  sudo_user: "{{project_name}}"
+  when: configure_user
+- name: add env_vars for project user
+  template: src=env_vars.j2 dest=/projects/{{project_name}}/env_vars mode=640
+  sudo_user: "{{project_name}}"
+  when: configure_user
+
 # Create the virtualenv
 - name: create virtualenv
   command: virtualenv -p {{python_pkg}} /projects/{{project_name}}/virt creates=/projects/{{project_name}}/virt
