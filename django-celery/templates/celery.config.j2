@@ -1,3 +1,6 @@
+# Django settings module
+export DJANGO_SETTINGS_MODULE="{{project_name | mandatory}}.settings"
+
 # Names of nodes to start
 CELERYD_NODES="{% for n in range(1, worker_nodes+1) %}worker{{n}} {% endfor %}"
 
@@ -31,6 +34,15 @@ CELERY_CREATE_DIRS=1
 # Limit number of tasks a child runs before being reloaded
 {% if celeryd_max_tasks_per_child %}
 CELERYD_MAX_TASKS_PER_CHILD={{ celeryd_max_tasks_per_child }}
+{% endif %}
+
+{% if celerybeat_enabled %}
+CELERYBEAT_USER="{{project_name}}"
+CELERYBEAT_GROUP="{{project_name}}"
+CELERYBEAT_LOG_FILE="/projects/{{project_name | mandatory}}/logs/celerybeat.log"
+CELERYBEAT_PID_FILE="/projects/{{project_name | mandatory}}/data/celerybeat.pid"
+CELERYBEAT_CHDIR="/projects/{{project_name | mandatory}}/src/{{project_name}}"
+CELERYBEAT_OPTS="--schedule=/projects/{{project_name | mandatory}}/data/celerybeat-schedule"
 {% endif %}
 
 {% for key, val in django_environment.items() %}

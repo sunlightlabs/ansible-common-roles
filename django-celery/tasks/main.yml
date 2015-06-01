@@ -5,9 +5,19 @@
   notify:
     - restart django-application
 - name: write celeryd config
-  template: src=celeryd.config.j2 dest=/etc/default/celery-{{project_name}}
+  template: src=celery.config.j2 dest=/etc/default/celery-{{project_name}}
   notify:
     - restart django-application
+- name: write celerybeat template
+  template: src=celerybeat.j2 dest=/etc/init.d/celerybeat-{{project_name}} mode=u+rwx
+  notify:
+    - restart celerybeat
+  when: celerybeat_enabled
+- name: write celerybeat config
+  template: src=celery.config.j2 dest=/etc/default/celerybeat-{{project_name}}
+  notify:
+    - restart celerybeat
+  when: celerybeat_enabled
 - name: Ensure celery-{{project_name}} is running
   service: name=celery-{{project_name}} state=restarted enabled=yes
 
