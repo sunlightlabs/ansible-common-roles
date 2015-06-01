@@ -2,3 +2,4 @@
 concurrency: 4
 worker_nodes: 3
 celeryd_max_tasks_per_child: None
+celerybeat_enabled: no

@@ -1,3 +1,5 @@
 ---
 - name: restart django-application
   service: name=celery-{{project_name}} state=restarted
+- name: restart celerybeat
+  service: name=celerybeat-{{project_name}} state=restarted
