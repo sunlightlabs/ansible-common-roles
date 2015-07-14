@@ -39,7 +39,7 @@
 - name: add env_vars for project user
   template: src=env_vars.j2 dest=/projects/{{project_name}}/env_vars mode=640
   sudo_user: "{{project_name}}"
-  when: configure_user
+  when: configure_user and deploy_type == 'vagrant'
 
 # Create the virtualenv
 - name: create virtualenv
