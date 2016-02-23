@@ -1,0 +1,31 @@
+---
+# install python packages (using facts)
+- name: setup python 2 variables
+  set_fact: python_pkg=python python_dev_pkg=python-dev python_full_version=2.7
+  when: python_version == 2
+- name: setup python 3 variables
+  set_fact: python_pkg=python3 python_dev_pkg=python3-dev python_full_version=3.4
+  when: python_version == 3
+- name: install needed packages
+  apt: pkg={{item}} update_cache=yes
+  with_items:
+    - python-virtualenv
+    - "{{python_pkg}}"
+    - "{{python_dev_pkg}}"
+
+# Create the virtualenv
+- name: create virtualenv
+  command: virtualenv -p {{python_pkg}} /projects/{{project_name}}/virt creates=/projects/{{project_name}}/virt
+  sudo_user: "{{project_name}}"
+  notify:
+    - restart django-application
+- name: add checkouts to python path
+  lineinfile: dest=/projects/{{project_name}}/virt/lib/python{{python_full_version}}/site-packages/checkouts.pth create=yes state=present line=/projects/{{project_name}}/src/{{item.dir}}
+  with_items: git_repositories
+  sudo_user: "{{project_name}}"
+- name: install requirements
+  pip: requirements=/projects/{{project_name}}/src/{{item.dir}}/requirements.txt virtualenv=/projects/{{project_name}}/virt/
+  sudo_user: "{{project_name}}"
+  with_items: git_repositories
+  notify:
+    - restart django-application

@@ -1,0 +1,37 @@
+# create user directory
+- name: make project dir
+  file: path=/projects/{{project_name}} state=directory
+- name: add project user
+  user: name={{project_name}} home=/projects/{{project_name}} shell=/bin/bash state=present
+- name: chown user directory
+  file: path=/projects/{{project_name}} owner={{project_name}}
+- name: add user subdirectories
+  file: path=/projects/{{project_name}}/{{item}} owner={{project_name}} state=directory
+  with_items:
+    - logs
+    - data
+  sudo_user: "{{project_name}}"
+
+# Configure project user
+- name: add .profile for project user
+  template: src=profile.j2 dest=/projects/{{project_name}}/.profile mode=644
+  sudo_user: "{{project_name}}"
+  when: configure_user
+- name: add .bashrc for project user
+  template: src=bashrc.j2 dest=/projects/{{project_name}}/.bashrc mode=644
+  sudo_user: "{{project_name}}"
+  when: configure_user
+- name: add env_vars for project user
+  template: src=env_vars.j2 dest=/projects/{{project_name}}/env_vars mode=640
+  sudo_user: "{{project_name}}"
+  when: configure_user and deploy_type == 'vagrant'
+
+# set up log rotation
+- name: write logrotate conf
+  template: src=logrotate.j2 dest=/etc/logrotate.d/{{project_name}}.conf
+
+- name: checkout project directories
+  git: repo={{item.repo}} dest=/projects/{{project_name}}/src/{{item.dir}} version={{item.version|default('HEAD')}}
+  sudo_user: "{{project_name}}"
+  with_items: git_repositories
+  when: deploy_type != "vagrant"
