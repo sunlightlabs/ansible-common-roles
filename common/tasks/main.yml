@@ -15,6 +15,7 @@
       - mercurial
       - python-pycurl
       - python-boto
+      - vim
 - name: install extra packages
   apt: pkg={{item}}
   with_items: extra_packages
