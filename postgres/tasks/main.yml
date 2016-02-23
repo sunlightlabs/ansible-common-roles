@@ -11,7 +11,7 @@
   postgresql_user: name={{dbuser}} password={{dbpassword}} role_attr_flags=SUPERUSER state=present
   sudo_user: postgres
 - name: create postgres database
-  postgresql_db: name={{dbname}}
+  postgresql_db: name={{dbname}} owner={{dbuser}}
   sudo_user: postgres
   notify:
     - load extensions
