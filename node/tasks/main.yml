@@ -1,0 +1,11 @@
+---
+- name: install node and npm
+  apt: pkg={{item}} update_cache=yes
+  with_items:
+    - node
+    - npm
+- name: install extra packages
+  apt: pkg={{item}}
+  with_items: extra_packages
+- name: symlink nodejs to node
+  file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
