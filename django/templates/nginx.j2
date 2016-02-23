@@ -25,6 +25,12 @@ server {
         include uwsgi_params;
     }
 
+    {% if serve_static %}
+    location {{ static_loc|default('/static/') }}{
+        alias /projects/{{project_name}}/src/{{project_name}}/staticfiles/;
+    }
+    {% endif %}
+
 {% for loc, root in nginx_locations.items() %}
     location {{loc}} { root {{root}}; }
 {% endfor %}

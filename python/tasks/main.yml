@@ -24,7 +24,7 @@
   with_items: git_repositories
   sudo_user: "{{project_name}}"
 - name: install requirements
-  pip: requirements=/projects/{{project_name}}/src/{{item.dir}}/requirements.txt virtualenv=/projects/{{project_name}}/virt/
+  pip: requirements=/projects/{{project_name}}/src/{{item.dir}}/{{ requirements | default('requirements.txt') }} virtualenv=/projects/{{project_name}}/virt/
   sudo_user: "{{project_name}}"
   with_items: git_repositories
   notify:

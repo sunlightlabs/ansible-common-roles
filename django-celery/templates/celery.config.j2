@@ -1,5 +1,5 @@
 # Django settings module
-export DJANGO_SETTINGS_MODULE="{{project_name | mandatory}}.settings"
+export DJANGO_SETTINGS_MODULE="{%- if django_settings_module %}{{ django_settings_module }}{% else %}{project_name | mandatory}}.settings{% endif %}"
 
 # Names of nodes to start
 CELERYD_NODES="{% for n in range(1, worker_nodes+1) %}worker{{n}} {% endfor %}"
