@@ -45,6 +45,6 @@ CELERYBEAT_CHDIR="/projects/{{project_name | mandatory}}/src/{{project_name}}"
 CELERYBEAT_OPTS="--schedule=/projects/{{project_name | mandatory}}/data/celerybeat-schedule"
 {% endif %}
 
-{% for key, val in environment_vars.items() %}
+{% for key, val in django_environment.items() %}
 export {{key}}={{val}}
 {% endfor %}
