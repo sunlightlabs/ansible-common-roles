@@ -5,17 +5,15 @@
 - name: set hostname
   hostname: name={{hostname}}
   when: hostname != ""
-#- name: upgrade packages
-#  apt: upgrade=yes
 - name: install base packages
   apt: pkg={{item}} update_cache=yes
   with_items:
-      - build-essential
-      - git
-      - mercurial
-      - python-pycurl
-      - python-boto
-      - vim
+    - build-essential
+    - git
+    - mercurial
+    - python-pycurl
+    - python-boto
+    - vim
 - name: install extra packages
   apt: pkg={{item}}
   with_items: extra_packages
