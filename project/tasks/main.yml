@@ -2,7 +2,7 @@
 - name: make project dir
   file: path=/projects/{{project_name}} state=directory
 - name: add project user
-  user: name={{project_name}} home=/projects/{{project_name}} shell=/bin/bash state=present
+  user: name={{project_name}} home=/projects/{{project_name}} shell=/bin/bash state=present uid={{user_uid|default(1010)}}
 - name: chown user directory
   file: path=/projects/{{project_name}} owner={{project_name}}
 - name: add user subdirectories

@@ -2,5 +2,5 @@
 - name: install ruby
   apt: pkg=ruby-full update_cache=yes
 - name: install gems
-  gem: name={{item}} state=latest
+  gem: name={{item}} state=latest user_install=no
   with_items: gem_packages
