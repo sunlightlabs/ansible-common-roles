@@ -25,14 +25,14 @@ server {
         include uwsgi_params;
     }
 
-    {% if serve_static %}
+{% if serve_static %}
     location {{ static_loc|default('/static/') }} {
         gzip_vary on;
         gzip_proxied any;
         gzip_static on;
         alias /projects/{{project_name}}/src/{{project_name}}/staticfiles/;
     }
-    {% endif %}
+{% endif %}
 
 {% for loc, root in nginx_locations.items() %}
     location {{loc}} { root {{root}}; }
