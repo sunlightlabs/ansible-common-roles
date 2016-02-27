@@ -1,0 +1,9 @@
+---
+- name: install nginx
+  apt: pkg={{item}} update_cache=yes
+  with_items:
+    - nginx
+- name: write nginx template
+  template: src=nginx.j2 dest=/etc/nginx/sites-enabled/{{project_name}}
+  notify:
+    - restart nginx

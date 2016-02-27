@@ -1,0 +1,7 @@
+---
+port: 80
+server_name:
+ssl_cert:
+nginx_locations: {}
+http_proxy_pass: no
+serve_static: no
