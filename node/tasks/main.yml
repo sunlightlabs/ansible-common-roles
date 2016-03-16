@@ -14,5 +14,5 @@
   command: which nodejs
   register: nodejs_path
 - name: symlink nodejs to node
-  file: src={{item}} dest=/usr/sbin/node state=link
+  file: src={{item}} dest=/usr/bin/node state=link
   with_items: nodejs_path.stdout
