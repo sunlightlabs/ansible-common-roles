@@ -10,6 +10,7 @@ server {
 {% if server_name %}
     server_name {{server_name}};
 {% endif %}
+    sendfile off;
 {% if ssl_cert %}
     listen 443 ssl;
     ssl_certificate /etc/nginx/certs/{{ssl_cert}};
@@ -27,6 +28,7 @@ server {
 
 {% if serve_static %}
     location {{ static_loc|default('/static/') }} {
+        gzip_on;
         gzip_vary on;
         gzip_proxied any;
         gzip_static on;

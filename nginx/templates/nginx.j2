@@ -30,6 +30,7 @@ server {
     }
 {% if serve_static %}
     location {{ static_loc|default('/static/') }} {
+        gzip on;
         gzip_vary on;
         gzip_proxied any;
         gzip_static on;
