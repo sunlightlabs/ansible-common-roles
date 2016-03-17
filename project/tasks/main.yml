@@ -35,7 +35,11 @@
   with_items: git_repositories
   when: deploy_type != "vagrant" or force_git_checkout
 
+- name: copy additional unversioned files
+  copy: src={{item.src}} dest=/projects/{{project_name}}/src/{{project_name}}/{{item.dest}}
+  with_items: unversioned_files
+
 - name: set permissions of git checkout
   file: path=/projects/{{project_name}}/src/{{item.dir}} owner={{project_name}} group={{project_name}} mode=755 state=directory recurse=yes
   with_items: git_repositories
-  when: deploy_type != "vagrant" or (force_git_checkout is defined and force_git_checkout)
+  when: deploy_type != "vagrant" or force_git_checkout

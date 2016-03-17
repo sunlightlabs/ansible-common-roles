@@ -1,3 +1,4 @@
 ---
 configure_user: no
 force_git_checkout: no
+unversioned_files: []
