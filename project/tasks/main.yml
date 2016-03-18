@@ -31,7 +31,7 @@
   template: src=logrotate.j2 dest=/etc/logrotate.d/{{project_name}}.conf
 
 - name: checkout project directories
-  git: repo={{item.repo}} dest=/projects/{{project_name}}/src/{{item.dir}} version={{item.version|default('HEAD')}} force={{force_git_checkout|default(no)}}
+  git: repo={{item.repo}} dest=/projects/{{project_name}}/src/{{item.dir}} version={{item.version|default('HEAD')}} track_submodules=yes force={{force_git_checkout|default(no)}}
   with_items: git_repositories
   when: deploy_type != "vagrant" or force_git_checkout
 
